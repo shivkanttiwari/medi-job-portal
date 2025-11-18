@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Anantshree Consulting — Software Services</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="container">
+      <h1>Anantshree Consulting</h1>
+      <p>Software development · Cloud · DevOps · Custom Solutions</p>
+      <a class="btn" href="#contact">Get a free consult</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="services">
+      <h2>Services</h2>
+      <div class="grid">
+        <div class="card"><h3>Custom Software</h3><p>End-to-end product development.</p></div>
+        <div class="card"><h3>Cloud & DevOps</h3><p>Modernize infra and CI/CD.</p></div>
+        <div class="card"><h3>Consulting</h3><p>Architecture reviews and roadmaps.</p></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2>About</h2>
+      <p>Anantshree Consulting helps businesses build reliable software and scale engineering practices.</p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <form id="contactForm">
+        <input name="name" placeholder="Your name" required />
+        <input name="email" type="email" placeholder="Email" required />
+        <textarea name="message" placeholder="Message" required></textarea>
+        <button type="submit" class="btn">Send</button>
+      </form>
+      <p class="muted">Or email: <a href="mailto:hello@anantshree.example">hello@anantshree.example</a></p>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">© <span id="year"></span> Anantshree Consulting</div>
+  </footer>
+
+ // ...existing code...
+  <script>
+    // contact form: POST to local server endpoint
+    document.getElementById('year').textContent = new Date().getFullYear();
+    document.getElementById('contactForm').addEventListener('submit', async function(e){
+      e.preventDefault();
+      const f = new FormData(e.target);
+      const payload = {
+        name: f.get('name'),
+        email: f.get('email'),
+        message: f.get('message')
+      };
+      try {
+        const res = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (res.ok) {
+          alert('Message sent. Thank you!');
+          e.target.reset();
+        } else {
+          const err = await res.text();
+          alert('Failed to send message: ' + err);
+        }
+      } catch (err) {
+        alert('Error sending message: ' + err.message);
+      }
+    });
+  </script>
+// ...existing code...
+</body>
+</html>
